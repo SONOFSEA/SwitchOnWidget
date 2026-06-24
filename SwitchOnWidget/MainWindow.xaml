@@ -1,0 +1,162 @@
+<Window x:Class="SwitchOnWidget.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="스위치온 6주 위젯"
+        Width="420" Height="640" MinWidth="390" MinHeight="520"
+        WindowStyle="None" ResizeMode="CanResizeWithGrip"
+        AllowsTransparency="False" Background="{StaticResource WindowBrush}"
+        Closing="Window_Closing" StateChanged="Window_StateChanged"
+        LocationChanged="Window_LocationChanged">
+    <Border BorderBrush="#354052" BorderThickness="1" CornerRadius="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="#151B24" CornerRadius="10,10,0,0"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid Margin="12,0,6,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="SWITCH ON" FontWeight="Bold" FontSize="15"
+                                   Foreground="{StaticResource AccentBrush}" />
+                        <TextBlock Text="  6주 체크" Foreground="{StaticResource MutedTextBrush}" />
+                    </StackPanel>
+                    <CheckBox x:Name="TopmostCheckBox" Grid.Column="1" Content="항상 위"
+                              VerticalAlignment="Center" Margin="4,0,8,0"
+                              Checked="TopmostCheckBox_Changed" Unchecked="TopmostCheckBox_Changed" />
+                    <Button Grid.Column="2" Content="—" Width="32" Height="30" Padding="0"
+                            Click="MinimizeButton_Click" ToolTip="트레이로 숨기기" />
+                </Grid>
+            </Border>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="14,12,14,16">
+                    <Grid Margin="2,0,2,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock x:Name="TodayText" FontSize="20" FontWeight="SemiBold" />
+                            <TextBlock x:Name="PeriodStatusText" Margin="0,3,0,0"
+                                       Foreground="{StaticResource MutedTextBrush}" />
+                        </StackPanel>
+                        <Border Grid.Column="1" Background="{StaticResource AccentDarkBrush}"
+                                CornerRadius="10" Padding="12,7" VerticalAlignment="Center">
+                            <TextBlock x:Name="DayText" FontSize="18" FontWeight="Bold"
+                                       Foreground="{StaticResource AccentBrush}" />
+                        </Border>
+                    </Grid>
+
+                    <Grid Margin="2,0,2,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ProgressBar x:Name="ProgramProgressBar" Height="8" Minimum="0" Maximum="100"
+                                     Background="#2A3240" Foreground="{StaticResource AccentBrush}" />
+                        <TextBlock x:Name="ProgressText" Grid.Column="1" Margin="10,-5,0,0"
+                                   Foreground="{StaticResource MutedTextBrush}" />
+                    </Grid>
+
+                    <Border Style="{StaticResource SectionCard}">
+                        <StackPanel>
+                            <DockPanel Margin="0,0,0,8">
+                                <TextBlock Text="오늘의 식단" FontSize="16" FontWeight="SemiBold" />
+                                <Border x:Name="SpecialBadge" DockPanel.Dock="Right" Background="#5A3A36"
+                                        CornerRadius="7" Padding="7,3" Visibility="Collapsed">
+                                    <TextBlock x:Name="SpecialText" Foreground="#FFB39D" FontSize="12" />
+                                </Border>
+                            </DockPanel>
+                            <TextBlock x:Name="BreakfastText" TextWrapping="Wrap" Margin="0,3" />
+                            <TextBlock x:Name="LunchText" TextWrapping="Wrap" Margin="0,3" />
+                            <TextBlock x:Name="SnackText" TextWrapping="Wrap" Margin="0,3" />
+                            <TextBlock x:Name="DinnerText" TextWrapping="Wrap" Margin="0,3" />
+                            <TextBlock x:Name="ExtraText" TextWrapping="Wrap" Margin="0,7,0,0"
+                                       Foreground="{StaticResource MutedTextBrush}" FontSize="12" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource SectionCard}">
+                        <StackPanel>
+                            <DockPanel>
+                                <TextBlock Text="오늘의 체크" FontSize="16" FontWeight="SemiBold" />
+                                <TextBlock x:Name="ChecklistProgressText" DockPanel.Dock="Right"
+                                           Foreground="{StaticResource AccentBrush}" FontWeight="SemiBold" />
+                            </DockPanel>
+                            <UniformGrid Columns="2" Margin="0,5,0,0">
+                                <CheckBox x:Name="ShakeCheckBox" Content="쉐이크 완료" Tag="check"
+                                          Checked="RecordCheckBox_Changed" Unchecked="RecordCheckBox_Changed" />
+                                <CheckBox x:Name="LunchCheckBox" Content="점심 식단 완료" Tag="check"
+                                          Checked="RecordCheckBox_Changed" Unchecked="RecordCheckBox_Changed" />
+                                <CheckBox x:Name="DinnerCheckBox" Content="저녁 식단 완료" Tag="check"
+                                          Checked="RecordCheckBox_Changed" Unchecked="RecordCheckBox_Changed" />
+                                <CheckBox x:Name="WaterCheckBox" Content="물 2L 완료" Tag="check"
+                                          Checked="RecordCheckBox_Changed" Unchecked="RecordCheckBox_Changed" />
+                                <CheckBox x:Name="ExerciseCheckBox" Content="운동 완료" Tag="check"
+                                          Checked="RecordCheckBox_Changed" Unchecked="RecordCheckBox_Changed" />
+                                <CheckBox x:Name="WeightRecordedCheckBox" Content="체중 기록 완료" Tag="check"
+                                          Checked="RecordCheckBox_Changed" Unchecked="RecordCheckBox_Changed" />
+                            </UniformGrid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource SectionCard}">
+                        <StackPanel>
+                            <TextBlock Text="체중" FontSize="16" FontWeight="SemiBold" />
+                            <TextBlock x:Name="ExpectedWeightText" Margin="0,7,0,8" TextWrapping="Wrap"
+                                       Foreground="{StaticResource MutedTextBrush}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="70" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="WeightTextBox" FontSize="16" VerticalContentAlignment="Center"
+                                         ToolTip="30~200kg 범위" />
+                                <TextBlock Grid.Column="1" Text="kg" VerticalAlignment="Center"
+                                           Margin="10,0,0,0" Foreground="{StaticResource MutedTextBrush}" />
+                            </Grid>
+                            <TextBlock Text="메모" Margin="0,10,0,5" Foreground="{StaticResource MutedTextBrush}" />
+                            <TextBox x:Name="MemoTextBox" Height="58" AcceptsReturn="True"
+                                     TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+                        </StackPanel>
+                    </Border>
+
+                    <Button Content="오늘 기록 저장" Background="{StaticResource AccentDarkBrush}"
+                            Foreground="{StaticResource AccentBrush}" FontWeight="SemiBold"
+                            Click="SaveButton_Click" />
+
+                    <UniformGrid Columns="2" Margin="0,3,0,0">
+                        <Button Content="전체 캘린더" Click="CalendarButton_Click" />
+                        <Button Content="체중 기록·그래프" Click="WeightLogButton_Click" />
+                    </UniformGrid>
+
+                    <Border Style="{StaticResource SectionCard}" Margin="0,10,0,7">
+                        <StackPanel>
+                            <DockPanel>
+                                <TextBlock Text="Windows 자동실행" FontWeight="SemiBold" />
+                                <TextBlock x:Name="StartupStatusText" DockPanel.Dock="Right"
+                                           Foreground="{StaticResource MutedTextBrush}" />
+                            </DockPanel>
+                            <UniformGrid Columns="2" Margin="0,7,0,0">
+                                <Button Content="자동실행 등록" Click="RegisterStartupButton_Click" />
+                                <Button Content="자동실행 해제" Click="UnregisterStartupButton_Click" />
+                            </UniformGrid>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock x:Name="SaveStatusText" TextAlignment="Center" Margin="0,0,0,6"
+                               Foreground="{StaticResource MutedTextBrush}" FontSize="12" />
+                    <Button Content="정지 · 완전히 종료" Background="#563238" Foreground="#FFB9BE"
+                            Click="StopButton_Click" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Window>

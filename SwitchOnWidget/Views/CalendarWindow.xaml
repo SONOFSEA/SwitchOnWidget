@@ -1,0 +1,109 @@
+<Window x:Class="SwitchOnWidget.Views.CalendarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="스위치온 6주 캘린더" Width="1120" Height="740"
+        MinWidth="900" MinHeight="620" WindowStartupLocation="CenterOwner">
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Margin="0,0,0,14">
+            <StackPanel>
+                <TextBlock Text="6주 전체 캘린더" FontSize="24" FontWeight="Bold" />
+                <TextBlock Text="2026.06.22 월요일 — 2026.08.02 일요일 · 날짜를 누르면 기록을 수정할 수 있습니다."
+                           Margin="0,4,0,0" Foreground="{StaticResource MutedTextBrush}" />
+            </StackPanel>
+            <Button DockPanel.Dock="Right" Content="닫기" Width="74" Click="CloseButton_Click" />
+        </DockPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="310" />
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          Margin="0,0,14,0">
+                <ItemsControl x:Name="CalendarItemsControl">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="7" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Margin="4" Padding="0" Background="{Binding StatusBrush}"
+                                    CommandParameter="{Binding Date}" Click="DayCard_Click"
+                                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                <Grid Margin="9,8" MinHeight="96">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <DockPanel>
+                                        <TextBlock Text="{Binding DayLabel}" FontWeight="Bold"
+                                                   Foreground="{StaticResource AccentBrush}" />
+                                        <TextBlock Text="{Binding Weekday}" DockPanel.Dock="Right"
+                                                   Foreground="{StaticResource MutedTextBrush}" FontSize="11" />
+                                    </DockPanel>
+                                    <TextBlock Grid.Row="1" Text="{Binding DateLabel}" FontSize="13"
+                                               FontWeight="SemiBold" Margin="0,3,0,0" />
+                                    <StackPanel Grid.Row="2" Margin="0,5,0,4">
+                                        <TextBlock Text="{Binding ExpectedLabel}" FontSize="11"
+                                                   Foreground="{StaticResource MutedTextBrush}" />
+                                        <TextBlock Text="{Binding ActualLabel}" FontSize="11" Margin="0,2,0,0" />
+                                        <TextBlock Text="{Binding SpecialLabel}" FontSize="10" Margin="0,3,0,0"
+                                                   Foreground="#FFB39D" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <TextBlock Grid.Row="3" Text="{Binding CompletionLabel}" FontSize="11"
+                                               Foreground="{StaticResource AccentBrush}" />
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <Border Grid.Column="1" Style="{StaticResource SectionCard}" Margin="0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="날짜 상세 기록" FontSize="18" FontWeight="Bold" />
+                        <TextBlock x:Name="SelectedDateText" FontSize="16" Margin="0,8,0,2" />
+                        <TextBlock x:Name="SelectedExpectedText" Foreground="{StaticResource AccentBrush}" />
+                        <TextBlock x:Name="SelectedSpecialText" Foreground="#FFB39D" Margin="0,4,0,8"
+                                   TextWrapping="Wrap" />
+
+                        <Border Background="#11161E" CornerRadius="8" Padding="10" Margin="0,0,0,8">
+                            <TextBlock x:Name="SelectedDietText" TextWrapping="Wrap" LineHeight="19" />
+                        </Border>
+
+                        <CheckBox x:Name="SelectedShakeCheckBox" Content="쉐이크 완료" />
+                        <CheckBox x:Name="SelectedLunchCheckBox" Content="점심 식단 완료" />
+                        <CheckBox x:Name="SelectedDinnerCheckBox" Content="저녁 식단 완료" />
+                        <CheckBox x:Name="SelectedWaterCheckBox" Content="물 2L 완료" />
+                        <CheckBox x:Name="SelectedExerciseCheckBox" Content="운동 완료" />
+                        <CheckBox x:Name="SelectedWeightRecordedCheckBox" Content="체중 기록 완료" />
+
+                        <TextBlock Text="실제 체중 (kg)" Foreground="{StaticResource MutedTextBrush}"
+                                   Margin="0,8,0,4" />
+                        <TextBox x:Name="SelectedWeightTextBox" />
+                        <TextBlock Text="메모" Foreground="{StaticResource MutedTextBrush}"
+                                   Margin="0,9,0,4" />
+                        <TextBox x:Name="SelectedMemoTextBox" Height="64" AcceptsReturn="True"
+                                 TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+                        <Button Content="이 날짜 기록 저장" Margin="0,12,0,0"
+                                Background="{StaticResource AccentDarkBrush}"
+                                Foreground="{StaticResource AccentBrush}"
+                                Click="SaveSelectedButton_Click" />
+                        <TextBlock x:Name="EditorStatusText" TextAlignment="Center" Margin="0,8,0,0"
+                                   Foreground="{StaticResource MutedTextBrush}" FontSize="12" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
