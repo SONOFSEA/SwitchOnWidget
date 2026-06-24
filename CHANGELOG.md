@@ -16,4 +16,3 @@
 - 시스템 트레이, 항상 위, 단일 인스턴스, 완전 종료
 - HKCU Run 기반 자동실행 등록 및 해제
 - Windows GitHub Actions Release 빌드 검증
-
